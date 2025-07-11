@@ -14,7 +14,7 @@ SHELL ["/bin/bash", "-c"]
 # Working directory
 WORKDIR /project
 
-# Intall utilities
+# Install utilities
 RUN apt update && \
     apt upgrade -y && \
     apt install -y --no-install-recommends ruby brotli curl git lsb-release pandoc python3-docutils shared-mime-info && \
@@ -27,7 +27,7 @@ RUN gem install asciidoctor
 RUN git config --system --add safe.directory '*' && \
     git config --system --add core.quotepath false
 
-# Intall Pagefind (regular and extended)
+# Install Pagefind (regular and extended)
 ARG VERSION_PAGEFIND
 RUN curl -LJO https://github.com/CloudCannon/pagefind/releases/download/v${VERSION_PAGEFIND}/pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
     tar -C /usr/local/bin -xzf pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
@@ -36,7 +36,7 @@ RUN curl -LJO https://github.com/CloudCannon/pagefind/releases/download/v${VERSI
     tar -C /usr/local/bin -xzf pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
     rm pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz
 
-# Intall Node.js
+# Install Node.js
 ARG VERSION_NODE
 RUN apt install -y ca-certificates curl gnupg && \
     mkdir -p /etc/apt/keyrings && \
@@ -47,14 +47,14 @@ RUN apt install -y ca-certificates curl gnupg && \
     mkdir /.npm && \
     chmod 777 /.npm
 
-# Intall Go
+# Install Go
 ARG VERSION_GO
 RUN curl -LJO https://go.dev/dl/go${VERSION_GO}.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go${VERSION_GO}.linux-amd64.tar.gz && \
     rm go${VERSION_GO}.linux-amd64.tar.gz
 ENV PATH="$PATH:/usr/local/go/bin"
 
-# Intall Dart Sass
+# Install Dart Sass
 ARG VERSION_DART_SASS
 RUN curl -LJO https://github.com/sass/dart-sass/releases/download/${VERSION_DART_SASS}/dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz && \
     tar -xf dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz && \
