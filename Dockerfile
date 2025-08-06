@@ -1,5 +1,5 @@
-ARG VERSION_DART_SASS=1.89.2
-ARG VERSION_GO=1.24.4
+ARG VERSION_DART_SASS=1.90.0
+ARG VERSION_GO=1.24.5
 ARG VERSION_HUGO=0.148.2
 ARG VERSION_NODE=22.x
 ARG VERSION_PAGEFIND=1.1.1
@@ -17,7 +17,7 @@ WORKDIR /project
 # Install utilities
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y --no-install-recommends ruby brotli curl git lsb-release pandoc python3-docutils shared-mime-info && \
+    apt install -y --no-install-recommends ruby brotli curl git lsb-release pandoc python3-docutils shared-mime-info zstd && \
     apt clean
 
 # Install gems
