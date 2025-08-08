@@ -1,7 +1,7 @@
 ARG VERSION_DART_SASS=1.90.0
 ARG VERSION_GO=1.24.5
 ARG VERSION_HUGO=0.148.2
-ARG VERSION_NODE=22.x
+ARG VERSION_NODE=22.18.0
 ARG VERSION_PAGEFIND=1.1.1
 ARG VERSION_UBUNTU=24.04
 
@@ -17,7 +17,7 @@ WORKDIR /project
 # Install utilities
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y --no-install-recommends ruby brotli curl git lsb-release pandoc python3-docutils shared-mime-info zstd && \
+    apt install -y --no-install-recommends ruby brotli curl git lsb-release pandoc python3-docutils shared-mime-info xz-utils zstd && \
     apt clean
 
 # Install gems
@@ -29,44 +29,41 @@ RUN git config --system --add safe.directory '*' && \
 
 # Install Pagefind (regular and extended)
 ARG VERSION_PAGEFIND
-RUN curl -LJO https://github.com/CloudCannon/pagefind/releases/download/v${VERSION_PAGEFIND}/pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
-    tar -C /usr/local/bin -xzf pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
-    rm pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
-    curl -LJO https://github.com/CloudCannon/pagefind/releases/download/v${VERSION_PAGEFIND}/pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
-    tar -C /usr/local/bin -xzf pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz && \
-    rm pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz
+RUN curl -LJO "https://github.com/CloudCannon/pagefind/releases/download/v${VERSION_PAGEFIND}/pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz" && \
+    tar -C /usr/local/bin -xf "pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz" && \
+    rm "pagefind-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz" && \
+    curl -LJO "https://github.com/CloudCannon/pagefind/releases/download/v${VERSION_PAGEFIND}/pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz" && \
+    tar -C /usr/local/bin -xf "pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz" && \
+    rm "pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz"
 
 # Install Node.js
 ARG VERSION_NODE
-RUN apt install -y ca-certificates curl gnupg && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${VERSION_NODE} nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt update && \
-    apt install nodejs -y && \
-    mkdir /.npm && \
-    chmod 777 /.npm
+RUN curl -LJO "https://nodejs.org/dist/v${VERSION_NODE}/node-v${VERSION_NODE}-linux-x64.tar.xz" && \
+    tar -C /usr/local -xf "node-v${VERSION_NODE}-linux-x64.tar.xz" && \
+    rm "node-v${VERSION_NODE}-linux-x64.tar.xz"
+ENV PATH="${PATH}:/usr/local/node-v${VERSION_NODE}-linux-x64/bin"
 
 # Install Go
 ARG VERSION_GO
-RUN curl -LJO https://go.dev/dl/go${VERSION_GO}.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go${VERSION_GO}.linux-amd64.tar.gz && \
-    rm go${VERSION_GO}.linux-amd64.tar.gz
-ENV PATH="$PATH:/usr/local/go/bin"
+RUN curl -LJO "https://go.dev/dl/go${VERSION_GO}.linux-amd64.tar.gz" && \
+    tar -C /usr/local -xf "go${VERSION_GO}.linux-amd64.tar.gz" && \
+    rm "go${VERSION_GO}.linux-amd64.tar.gz"
+ENV PATH="${PATH}:/usr/local/go/bin"
 
 # Install Dart Sass
 ARG VERSION_DART_SASS
-RUN curl -LJO https://github.com/sass/dart-sass/releases/download/${VERSION_DART_SASS}/dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz && \
-    tar -xf dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz && \
-    cp -r dart-sass/ /usr/local/bin && \
-    rm -rf dart-sass*
-ENV PATH="$PATH:/usr/local/bin/dart-sass"
+RUN curl -LJO "https://github.com/sass/dart-sass/releases/download/${VERSION_DART_SASS}/dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz" && \
+    tar -C /usr/local -xf "dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz" && \
+    rm "dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz"
+ENV PATH="${PATH}:/usr/local/dart-sass"
 
 # Install Hugo
 ARG VERSION_HUGO
-RUN curl -LJO https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_extended_${VERSION_HUGO}_linux-amd64.deb && \
-    apt install -y ./hugo_extended_${VERSION_HUGO}_linux-amd64.deb && \
-    rm hugo_extended_${VERSION_HUGO}_linux-amd64.deb
+RUN curl -LJO "https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_extended_${VERSION_HUGO}_linux-amd64.tar.gz" && \
+    mkdir /usr/local/hugo && \
+    tar -C /usr/local/hugo -xf "hugo_extended_${VERSION_HUGO}_linux-amd64.tar.gz" && \
+    rm "hugo_extended_${VERSION_HUGO}_linux-amd64.tar.gz"
+ENV PATH="${PATH}:/usr/local/hugo"
 ENV HUGO_CACHEDIR="/cache"
 ENV HUGO_SECURITY_EXEC_ALLOW="^(asciidoctor|babel|git|go|npx|pandoc|postcss|rst2html|sass|tailwindcss)$"
 
