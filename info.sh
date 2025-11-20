@@ -24,7 +24,7 @@ main() {
   version_python3=$(python3 --version | awk '{print $2}')
   version_rst2html=$(rst2html --version | awk '{print $3}' | tr -d ',')
   version_ruby=$(ruby --version | awk '{print $2}')
-  version_zstd=$(zstd --version | awk '{print $5}'  | tr -d ',')
+  version_zstd=$(zstd --version | awk '{print $5}'  | tr -d 'v,')
 
   heredoc=$(cat <<EOT
 ${os} ($arch)
