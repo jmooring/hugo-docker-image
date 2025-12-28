@@ -1,6 +1,6 @@
 # Hugo Docker Image
 
-This image contains [Hugo](https://gohugo.io/) and its optional runtime dependencies: Asciidoctor, Dart Sass, Git, Go, Node.js, Pandoc, and Rst2html. It also contains the standard and extended editions of [Pagefind](https://pagefind.app/), a static search library by [Cloud Cannon](https://cloudcannon.com/).
+This image contains [Hugo](https://gohugo.io/) and its optional runtime dependencies: Asciidoctor, Dart Sass, Git, Go, Node.js, Pandoc, and Rst2html. It also contains the extended edition of [Pagefind](https://pagefind.app/), a static search library by [Cloud Cannon](https://cloudcannon.com/).
 
 ## Usage
 
