@@ -37,7 +37,7 @@ ARG VERSION_HUGO
 
 ENV PATH="/usr/local/lib/nodejs/bin:/usr/local/go/bin:/usr/local/dart-sass:/usr/local/bin:${PATH}"
 ENV HUGO_CACHEDIR="/cache"
-ENV HUGO_SECURITY_EXEC_ALLOW="^(asciidoctor|babel|git|go|npx|pandoc|postcss|rst2html|sass|tailwindcss)$"
+ENV HUGO_SECURITY_EXEC_ALLOW="^(asciidoctor|babel|git|go|node|pandoc|postcss|rst2html|sass|tailwindcss)$"
 
 WORKDIR /project
 
