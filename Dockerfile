@@ -1,13 +1,13 @@
 # Global ARGs
-ARG VERSION_DART_SASS=1.99.0
-ARG VERSION_GO=1.26.2
-ARG VERSION_HUGO=0.161.1
-ARG VERSION_NODE=24.15.0
-ARG VERSION_PAGEFIND=1.4.0
+ARG VERSION_DART_SASS=1.100.0
+ARG VERSION_GO=1.26.3
+ARG VERSION_HUGO=0.162.0
+ARG VERSION_NODE=24.16.0
+ARG VERSION_PAGEFIND=1.5.2
 ARG VERSION_PANDOC=3.9
 
 # Stage 1: Builder
-FROM debian:bookworm-slim AS builder
+FROM debian:trixie-slim AS builder
 
 ARG VERSION_DART_SASS
 ARG VERSION_GO
@@ -31,7 +31,7 @@ RUN rm -rf /extract/go/src /extract/go/test /extract/go/doc /extract/go/api /ext
     rm -rf /extract/node/share/doc /extract/node/share/man /extract/node/include
 
 # -Stage 2: Final
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 ARG VERSION_HUGO
 
