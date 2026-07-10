@@ -16,12 +16,12 @@ ARG VERSION_NODE
 ARG VERSION_PAGEFIND
 ARG VERSION_PANDOC
 
-RUN apt-get update && apt-get install -y curl xz-utils
+RUN apt-get update && apt-get install -y curl
 
 WORKDIR /extract
 
 RUN curl -L https://github.com/CloudCannon/pagefind/releases/download/v${VERSION_PAGEFIND}/pagefind_extended-v${VERSION_PAGEFIND}-x86_64-unknown-linux-musl.tar.gz | tar -xz && \
-    mkdir node && curl -L https://nodejs.org/dist/v${VERSION_NODE}/node-v${VERSION_NODE}-linux-x64.tar.xz | tar -xJ -C node --strip-components=1 && \
+    mkdir node && curl -L https://nodejs.org/dist/v${VERSION_NODE}/node-v${VERSION_NODE}-linux-x64.tar.gz | tar -xz -C node --strip-components=1 && \
     curl -L https://go.dev/dl/go${VERSION_GO}.linux-amd64.tar.gz | tar -xz && \
     curl -L https://github.com/sass/dart-sass/releases/download/${VERSION_DART_SASS}/dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz | tar -xz && \
     mkdir hugo_bin && curl -L https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_extended_${VERSION_HUGO}_linux-amd64.tar.gz | tar -xz -C hugo_bin && \
