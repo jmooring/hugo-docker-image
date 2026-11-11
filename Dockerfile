@@ -1,10 +1,10 @@
 # Global ARGs
-ARG VERSION_DART_SASS=1.106.1
-ARG VERSION_GO=1.27.3
-ARG VERSION_HUGO=0.169.0
-ARG VERSION_NODE=24.22.1
-ARG VERSION_PAGEFIND=1.5.2
-ARG VERSION_PANDOC=3.12
+ARG VERSION_DART_SASS=1.108.2
+ARG VERSION_GO=1.27.4
+ARG VERSION_HUGO=0.170.0
+ARG VERSION_NODE=24.22.3
+ARG VERSION_PAGEFIND=1.6.0
+ARG VERSION_PANDOC=3.13
 
 # Stage 1: Builder
 FROM debian:trixie-slim AS builder
@@ -24,7 +24,7 @@ RUN curl -L https://github.com/CloudCannon/pagefind/releases/download/v${VERSION
     mkdir node && curl -L https://nodejs.org/dist/v${VERSION_NODE}/node-v${VERSION_NODE}-linux-x64.tar.gz | tar -xz -C node --strip-components=1 && \
     curl -L https://go.dev/dl/go${VERSION_GO}.linux-amd64.tar.gz | tar -xz && \
     curl -L https://github.com/sass/dart-sass/releases/download/${VERSION_DART_SASS}/dart-sass-${VERSION_DART_SASS}-linux-x64.tar.gz | tar -xz && \
-    mkdir hugo_bin && curl -L https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_extended_${VERSION_HUGO}_linux-amd64.tar.gz | tar -xz -C hugo_bin && \
+    mkdir hugo_bin && curl -L https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_${VERSION_HUGO}_linux-amd64.tar.gz | tar -xz -C hugo_bin && \
     curl -L -O "https://github.com/jgm/pandoc/releases/download/${VERSION_PANDOC}/pandoc-${VERSION_PANDOC}-linux-amd64.tar.gz" && tar -xzf "pandoc-${VERSION_PANDOC}-linux-amd64.tar.gz" --strip-components=1
 
 RUN rm -rf /extract/go/src /extract/go/test /extract/go/doc /extract/go/api /extract/go/pkg/obj && \
